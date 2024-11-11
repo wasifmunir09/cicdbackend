@@ -21,7 +21,7 @@ jobs:
         echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
 
     - name: Build the Docker image
-      run: docker build -t cicdbackend .
+      run: docker build -t wasifmunir/cicdbackend:latest .
 
     - name: Push to DockerHub
-      run: docker push wasifmunir09/cicdbackend:latest
+      run: docker push wasifmunir/cicdbackend:latest

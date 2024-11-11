@@ -5,16 +5,20 @@ on:
     workflows: [ "Docker Image CI" ]
     types:
       - completed
+
 jobs:
   build:
-
     runs-on: self-hosted
 
     steps:
-    - name: Pull docker Image from docker hub Login to DockerHub
-      run: sudo pull wasifmunir/cicdbackend:latest
-    - name: Delete old docker container 
-      run: sudo docker rm -f cicdbackend-container || true
-    - name: run docker container
-      run: sudo docker run -d -p 8000:8000 --name cicdbackend-container wasifmunir/cicdbackend
+    - name: Log in to DockerHub
+      run: echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
 
+    - name: Pull Docker Image from Docker Hub
+      run: sudo docker pull wasifmunir/cicdbackend:latest
+
+    - name: Delete old Docker container
+      run: sudo docker rm -f cicdbackend-container || true
+
+    - name: Run Docker container
+      run: sudo docker run -d -p 8000:8000 --name cicdbackend-container wasifmunir/cicdbackend

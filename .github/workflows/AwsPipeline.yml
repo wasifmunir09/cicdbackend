@@ -7,14 +7,24 @@ on:
       - completed
 jobs:
   build:
-
     runs-on: self-hosted
 
     steps:
+    - uses: actions/checkout@v4
+
+    - name: Login to DockerHub
+      env:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      run: |
+        echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+
     - name: Pull docker Image from docker hub Login to DockerHub
-      run: sudo pull wasifmunir/cicdbackend:latest
+      run: sudo docker pull wasifmunir/cicdbackend:latest
+
     - name: Delete old docker container 
       run: sudo docker rm -f cicdbackend-container || true
+      
     - name: run docker container
       run: sudo docker run -d -p 8000:8000 --name cicdbackend-container wasifmunir/cicdbackend
 

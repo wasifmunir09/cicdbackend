@@ -10,11 +10,10 @@ COPY package*.json ./
 # Copy the rest of the code
 COPY . .
 
-# Install the dependencies
-RUN yarn install
+RUN yarn build
 
 # Expose the port that the app listens on
 EXPOSE 8000
 
 # Define the command to run the app
-CMD [ "yarn", "start:dev" ]
+CMD [ "yarn", "start:prod" ]
